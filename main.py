@@ -1,14 +1,19 @@
+import itertools
+import string
+
 def crack_password(password):
-    guess = 0
+    characters = string.ascii_letters + string.digits + string.punctuation
     attempts = 0
 
-    while True:
-        attempts += 1
-        if str(guess) == password:
-            print(f"Password '{password}' cracked in {attempts} attempts.")
-            break
-        guess += 1
+    for length in range(1, len(password) + 1):
+        for guess in itertools.product(characters, repeat=length):
+            attempts += 1
+            guess = ''.join(guess)
+            print(f"Attempt {attempts}: {guess}")
+            if guess == password:
+                print(f"Password '{password}' cracked in {attempts} attempts.")
+                return
 
 if __name__ == "__main__":
-    password = input("Enter the password (numeric) to crack: ")
+    password = input("Enter the password to crack: ")
     crack_password(password)
